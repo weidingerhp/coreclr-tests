@@ -1,4 +1,5 @@
 var ws = null;
+var playername = null;
 
 window.onbeforeunload = function () {
     if (ws) {
@@ -19,7 +20,7 @@ window.onload = function () {
         ws.onmessage = function (evt) { 
             var received_msg = JSON.parse(evt.data);
             $("#log").append("<br/>");
-            $("#log").append(received_msg.msgType + ": " + received_msg.stringValue);
+            $("#log").append(received_msg.msgType + ": " + received_msg.value);
         };
         
         ws.onclose = function() { 
@@ -28,6 +29,20 @@ window.onload = function () {
     } else {
         // The browser doesn't support WebSocket
         alert("WebSocket NOT supported by your Browser!");
+    }
+}
+
+function loginplayer() {
+    var currentplayer = $( "#playernamefield" ).val();
+    
+    if (currentplayer) {
+        $("#playernamefield").hide();   
+        $("#playernamesubmit").hide();
+        $( "#loginstatus" ).html("<span style=\"color:green;font-weight:bold\" >Logging in as player : " + currentplayer + "</span>");
+        playername=currentplayer;
+        ws.send(JSON.stringify({"msgType" : "login", "value" : playername}));
+    } else {
+        $( "#loginstatus" ).html("<span style=\"color:red;font-weight:bold\" >Player name cannot be empty</span>");
     }
 }
 
