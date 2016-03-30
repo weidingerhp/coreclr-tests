@@ -21,6 +21,9 @@ window.onload = function () {
             var received_msg = JSON.parse(evt.data);
             $("#log").append("<br/>");
             $("#log").append(received_msg.msgType + ": " + received_msg.value);
+            if (received_msg.msgType == "login" && received_msg.value = true) {
+                startGame();
+            }
         };
         
         ws.onclose = function() { 
@@ -30,6 +33,10 @@ window.onload = function () {
         // The browser doesn't support WebSocket
         alert("WebSocket NOT supported by your Browser!");
     }
+}
+
+function startGame() {
+    
 }
 
 function loginplayer() {
