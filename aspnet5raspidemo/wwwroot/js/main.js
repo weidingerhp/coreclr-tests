@@ -21,7 +21,7 @@ window.onload = function () {
             var received_msg = JSON.parse(evt.data);
             $("#log").append("<br/>");
             $("#log").append(received_msg.msgType + ": " + received_msg.value);
-            if (received_msg.msgType == "login" && received_msg.value = true) {
+            if (received_msg.msgType == "login" && received_msg.value == true) {
                 startGame();
             }
         };
@@ -36,7 +36,7 @@ window.onload = function () {
 }
 
 function startGame() {
-    
+    drawplayingfield();
 }
 
 function loginplayer() {
@@ -51,6 +51,23 @@ function loginplayer() {
     } else {
         $( "#loginstatus" ).html("<span style=\"color:red;font-weight:bold\" >Player name cannot be empty</span>");
     }
+}
+
+function drawplayingfield() {
+    $("#login").hide();
+    $("#playfield").show();
+    $("#playfield").html("<p>Player: " + playername + "</p>");
+    
+    var playtable = '<table><tr>';
+    for (i = 0; i < 9; i++) {
+        if (i % 3 == 0) {
+            playtable += '</tr><tr>';
+        }
+        
+        playtable += '<td class="gametablecell unused" id="cell' + i + '" >&nbsp;</td>';
+    }
+    playtable += '</tr></table>';
+    $("#playfield").append(playtable);
 }
 
 function WebSocketTest() {

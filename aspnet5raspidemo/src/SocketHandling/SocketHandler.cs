@@ -61,10 +61,17 @@ namespace RaspiAspSample.SocketHandling
         async Task HandleStringMessage(string request) {
              var msgContent = JsonConvert.DeserializeObject<MessageContent>(request);
              Console.Out.WriteLine("Received Content: " + msgContent.MsgType);
-             var resp = new MessageContent();
-             resp.MsgType = MsgType.gamefinished;
-             resp.Value = "A little present for you";
-             await SendTextMessage(JsonConvert.SerializeObject(resp));
+             if (msgContent.MsgType == MsgType.login) {
+                var resp = new MessageContent();
+                resp.MsgType = MsgType.login;
+                resp.Value = true;
+                await SendTextMessage(JsonConvert.SerializeObject(resp));
+             } else {
+                var resp = new MessageContent();
+                resp.MsgType = MsgType.gamefinished;
+                resp.Value = "A little present for you";
+                await SendTextMessage(JsonConvert.SerializeObject(resp));
+             }
         }
         
         
